@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Step Cipher
+        </title>
+        <style>
+        </style>
+        <script type="text/javascript">
+        alert("JS active!");
+        function cipheryy(){
+            var ciph = document.getElementById("seed").value;
+            var step = parseInt(document.getElementById("step").value);
+            var str = document.getElementById("plain").value;
+            var final = "";
+            var pos = 0;
+            //var  = document.getElementById("cipher").value;
+            var len = seed.length;
+            if(step >= len){
+		        step = step % len;
+	        }
+            var textLen = str.length;
+            for(var i = 0; i < textLen; i++ )
+            {
+                if(str[i] >= 'A' && str[i] <= 'Z')
+		        {
+			        inc = key(ciph[pos]);
+			        if((str[i] + inc) > 'Z')
+				        final += (str[i] + inc - 26);
+			        else
+                        final += (str[i] + inc);
+			        pos = pos + (1 + step);
+			        if(pos >= len)
+				        pos = pos % len;
+		        }
+		        else if(str[i] >= 'a' && str[i] <= 'z')
+		        {
+			        inc = key(ciph[pos]);
+			        if((str[i] + inc) > 'z')
+                        final += (str[i] + inc - 26);
+			        else
+                        final += (str[i] + inc);
+			        pos = pos + (1 + step);
+			        if(pos >= len)
+				        pos = pos % len;
+		        }
+		        else
+		        {
+			        final += (str[i]);
+		        }
+            }
+            document.getElementById("cipher").value = final;
+            
+        }
+        function key(c){
+            if(c >= 'a' && c <= 'z')
+		        return c % 97;
+	        else
+		        return c % 65;
+        }
+
+        </script>
+    </head>
+    <body>
+        <div id="heading">
+            Step Cipher
+        </div>
+        <div id="form">
+            <form action="#">
+                <div>
+                    <label for="seed">Seed: </label>
+                    <input type="text" id="seed">
+                </div>
+                <div>
+                    <label for="step">Step: </label>
+                    <input type="text" id="step">
+                </div>
+                <div>
+                    <label for="plain">Plain text: </label>
+                    <input type="text" id="plain">
+                </div>
+                <button id="button" onclick="cipheryy();"> Cipher!</button>
+                <div>
+                    <label for="cipher">Cipher text: </label>
+                    <input type="text" id="cipher">
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
