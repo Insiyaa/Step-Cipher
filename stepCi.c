@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 int key(char);
 int main(void)
 {
@@ -59,7 +60,7 @@ int main(void)
 	printf("\n");
 	return 0;
 	
-	
+	getch();
 	
 } 
 int key(char c)

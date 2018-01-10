@@ -4,87 +4,128 @@
         <title>
             Step Cipher
         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+        <link rel="text/javascript" href="script/script.js">
+        <link rel="text/javascript" href="css/bootstrap/js/bootstrap.min.js">
         <style>
+            h1 {
+                color: aliceblue;
+            }
         </style>
-        <script type="text/javascript">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h1>
+                            StepCi
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <form>
+                <div class="form-group">
+                    <label for="plainText">Plain text</label>
+                    <input type="text" class="form-control" id="plainText" placeholder="Enter your text here">
+                </div>
+                <div class="form-group">
+                    <label for="code">Code(only alphabets)</label>
+                    <input type="password" class="form-control" id="code" placeholder="Enter the code">
+                </div>
+                <div class="form-group">
+                    <label for="step">Step</label>
+                    <input type="number" class="form-control" id="step" placeholder="Enter your step here" min="0">
+                </div>
+                <button class="btn btn-default" onclick="go(); return false;" onsubmit="return false;">Submit</button>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        <div class="well" id="well">You'll get your crypted text here!</div>
+    </body>
+    <script>
         alert("JS active!");
-        function cipheryy(){
-            var ciph = document.getElementById("seed").value;
+        function go() {
+            var code = document.getElementById("code").value;
+            if (!/^[a-zA-Z]*$/g.test(code)) {
+                alert("Invalid characters");
+                document.getElementById("code").focus();
+                return false;
+            }
             var step = parseInt(document.getElementById("step").value);
-            var str = document.getElementById("plain").value;
+            var plainT = document.getElementById("plainText").value;
+            okay = cryptIt(plainT, code, step);
+            if (!okay) {
+                content = "Well you used something other than alphabets in code. Try again :)!"
+            }
+            content = "Ciphered Text is " + okay + " ."
+            document.getElementById('well').innerHTML = content;
+        }
+        function cryptIt(str, ciph, step) {
             var final = "";
             var pos = 0;
-            //var  = document.getElementById("cipher").value;
-            var len = seed.length;
+            var len = ciph.length;
             if(step >= len){
 		        step = step % len;
 	        }
             var textLen = str.length;
             for(var i = 0; i < textLen; i++ )
             {
-                if(str[i] >= 'A' && str[i] <= 'Z')
+                var ca = str[i].charCodeAt(0);
+                if(ca >= 65 && ca <= 90)
 		        {
+                    //console.log(ciph[pos]);
 			        inc = key(ciph[pos]);
-			        if((str[i] + inc) > 'Z')
-				        final += (str[i] + inc - 26);
+                    //console.log(inc);
+			        if((ca + inc) > 90) {
+                        //console.log(ca+inc);
+				        final += String.fromCharCode(ca + inc - 26);
+                        //console.log(final);
+                    }
 			        else
-                        final += (str[i] + inc);
+                        final += String.fromCharCode(ca + inc);
 			        pos = pos + (1 + step);
 			        if(pos >= len)
 				        pos = pos % len;
 		        }
-		        else if(str[i] >= 'a' && str[i] <= 'z')
+		        else if(ca >= 97 && ca <= 122)
 		        {
 			        inc = key(ciph[pos]);
-			        if((str[i] + inc) > 'z')
-                        final += (str[i] + inc - 26);
+			        if((ca + inc) > 122)
+                        final += String.fromCharCode(ca + inc - 26);
 			        else
-                        final += (str[i] + inc);
+                        final += String.fromCharCode(ca + inc);
 			        pos = pos + (1 + step);
 			        if(pos >= len)
 				        pos = pos % len;
 		        }
 		        else
 		        {
-			        final += (str[i]);
+			        final += String.fromCharCode(ca);
 		        }
             }
-            document.getElementById("cipher").value = final;
-            
+            //console.log(final);
+            if(/[a-zA-Z]/.test(final))
+                return final;
+            else
+                return false;
         }
         function key(c){
-            if(c >= 'a' && c <= 'z')
-		        return c % 97;
+            var charCode = c.charCodeAt(0);
+            //console.log(charCode);
+            if(charCode >= 97 && charCode <= 122)
+		        return charCode % 97;
 	        else
-		        return c % 65;
+		        return charCode % 65;
         }
-
-        </script>
-    </head>
-    <body>
-        <div id="heading">
-            Step Cipher
-        </div>
-        <div id="form">
-            <form action="#">
-                <div>
-                    <label for="seed">Seed: </label>
-                    <input type="text" id="seed">
-                </div>
-                <div>
-                    <label for="step">Step: </label>
-                    <input type="text" id="step">
-                </div>
-                <div>
-                    <label for="plain">Plain text: </label>
-                    <input type="text" id="plain">
-                </div>
-                <button id="button" onclick="cipheryy();"> Cipher!</button>
-                <div>
-                    <label for="cipher">Cipher text: </label>
-                    <input type="text" id="cipher">
-                </div>
-            </form>
-        </div>
-    </body>
+    </script>
 </html>
